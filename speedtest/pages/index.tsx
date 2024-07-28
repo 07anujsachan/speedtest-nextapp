@@ -16,16 +16,28 @@ interface SpeedTestData {
   latency: number;
   bufferBloat: number;
   userLocation: string;
-  userIp: number;
+  userIp: string;
+  
 }
+ 
 
 const Home: React.FC = () => {
-  const [speedData, setSpeedData] = useState<SpeedTestData | null>(null);
+  const defaultData = {
+    downloadSpeed: 0,
+    uploadSpeed: 0,
+    downloaded: 0,
+    uploaded: 0,
+    latency: 0,
+    bufferBloat: 0,
+    userLocation: " ___ ",
+    userIp: "0.0.0.0",
+  }
+  const [speedData, setSpeedData] = useState<SpeedTestData | null>(defaultData);
   const [loading, setLoading] = useState<boolean>(false);
   const [btnStatus, setBtnStatus] = useState("go");
 
   const fetchSpeedData = async () => {
-    setSpeedData(null);
+    setSpeedData(defaultData);
     setLoading(true);
     setBtnStatus("loading");
     try {
@@ -130,31 +142,7 @@ const Home: React.FC = () => {
                     : btnStatus == "reload"
                     ? "Reload"
                     : "loading..."
-                  // <div className="flex justify-center">
-                  //   <div
-                  //     className="w-40 h-40 rounded-full "
-                  //     id="loader-wrapper"
-                  //   >
-                  //     <div class="loader">
-                  //       <div class="line"></div>
-                  //       <div class="line"></div>
-                  //       <div class="line"></div>
-                  //       <div class="line"></div>
-                  //       <div class="line"></div>
-                  //       <div class="line"></div>
-                  //       <div class="subline"></div>
-                  //       <div class="subline"></div>
-                  //       <div class="subline"></div>
-                  //       <div class="subline"></div>
-                  //       <div class="subline"></div>
-                  //       <div class="loader-circle-1">
-                  //         <div class="loader-circle-2"></div>
-                  //       </div>
-                  //       <div class="needle"></div>
-                  //       <div class="loading">Loading</div>
-                  //     </div>
-                  //   </div>
-                  // </div>
+                  
                 }
               </button>
             </div>
@@ -165,7 +153,7 @@ const Home: React.FC = () => {
             <div>
               <p className="text-white">User IP</p>
               <p className="text-[#8d8a8a]">
-                {speedData?.userIp === 0
+                {speedData?.userIp =="0" 
                   ? "___"
                   : speedData?.userIp.slice(0, 9)}
               </p>
