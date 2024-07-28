@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'POST') {
     try {
-      exec(`fast --upload --json`, (err, stdout, stderr) => {
+      exec(`node_modules/.bin/fast --upload --json`, (err, stdout, stderr) => {
         if (err || stderr) {
           return res.status(400).json({ error: err || stderr, code: 400 });
         }

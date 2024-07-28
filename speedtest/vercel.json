@@ -1,0 +1,11 @@
+{
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node"
+      }
+    ],
+    "hooks": {
+      "build": "npm install -g fast-cli"
+    }
+  }
