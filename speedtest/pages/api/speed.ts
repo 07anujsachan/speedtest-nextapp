@@ -1,15 +1,19 @@
-
-import type { NextApiRequest, NextApiResponse } from 'next';
-import Cors from 'cors';
-import { exec } from 'child_process';
+import type { NextApiRequest, NextApiResponse } from "next";
+import Cors from "cors";
+import path from "path";
+import { exec } from "child_process";
 
 // Initialize the cors middleware
 const cors = Cors({
-  methods: ['POST'],
+  methods: ["POST"],
 });
 
 // Helper method to wait for a middleware to execute before continuing
-function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) {
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function
+) {
   return new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
       if (result instanceof Error) {
@@ -20,12 +24,16 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) 
   });
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await runMiddleware(req, res, cors);
 
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     try {
-      exec(`node_modules/.bin/fast --upload --json`, (err, stdout, stderr) => {
+      const fastCliPath = path.resolve("node_modules/fast-cli/cli.js");
+      exec(`node ${fastCliPath} --upload --json`, (err, stdout, stderr) => {
         if (err || stderr) {
           return res.status(400).json({ error: err || stderr, code: 400 });
         }
