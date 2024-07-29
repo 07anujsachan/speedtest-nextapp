@@ -51,7 +51,7 @@ const Home: React.FC = () => {
       setSpeedData(data.data);
       setBtnStatus("reload");
     } catch (error) {
-      console.error("Error fetching speed data:", error);
+      console.error("something went wrong ...!!", 5);
     }
     setLoading(false);
   };
